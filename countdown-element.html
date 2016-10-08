@@ -1,0 +1,121 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`countdown-element`
+A time countdown element
+
+@demo demo/index.html 
+-->
+
+<dom-module id="countdown-element">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        <h3>[[message]]</h3>
+        <h2 style="text-align: center">[[timeLeft.hours]] : [[timeLeft.minutes]] : [[timeLeft.seconds]]</h2>
+    </template>
+
+    <script>
+        Polymer({
+
+            is: 'countdown-element',
+
+            properties: {
+                timeLeft: {
+                    type: Object,
+                },
+                message: {
+                    type: String,
+                    value: "countdown ends in"
+                },
+                duration: String,
+                untill: String,
+                timeout: {
+                    type: Number,
+                    value: 1000
+                },
+                tickFtns: {
+                    type: Array,
+                    value: []
+                },
+                running: Boolean
+
+            },
+            ready: function () {
+                this.duration = (new Date(this.untill) - new Date()) / 1000;
+                this.start()
+            },
+
+
+            start: function () {
+                if (this.running) {
+                    return;
+                }
+                this.running = true;
+                var start = Date.now(),
+                        that = this,
+                        diff, obj;
+
+                (function timer() {
+                    diff = that.duration - (((Date.now() - start) / 1000) | 0);
+
+                    if (diff > 0) {
+                        setTimeout(timer, that.timeout);
+                    } else {
+                        diff = 0;
+                        that.running = false;
+                    }
+
+                    obj = that.parse(diff);
+                    that.timeLeft = obj;
+                    that.tickFtns.forEach(function (ftn) {
+                        ftn.call(this, obj.minutes, obj.seconds);
+                    }, that);
+                }());
+            },
+
+            onTick: function (ftn) {
+                if (typeof ftn === 'function') {
+                    this.tickFtns.push(ftn);
+                }
+                return this;
+            },
+
+            expired: function () {
+                return !this.running;
+            },
+
+            parse: function (fullSeconds) {
+                console.log(fullSeconds);
+
+                var sec_num = parseInt(fullSeconds, 10); // don't forget the second param
+                var hours = Math.floor(sec_num / 3600);
+                var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+                var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+                if (hours < 10) {
+                    hours = "0" + hours;
+                }
+                if (minutes < 10) {
+                    minutes = "0" + minutes;
+                }
+                if (seconds < 10) {
+                    seconds = "0" + seconds;
+                }
+
+
+                return {
+                    'hours': hours,
+                    'minutes': minutes,
+                    'seconds': seconds
+                    //'seconds': (seconds % 60) | 0
+                    //'seconds': (seconds % 60) | 0
+                };
+            }
+
+        });
+    </script>
+</dom-module>
