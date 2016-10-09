@@ -28,7 +28,7 @@ A time countdown element
         </template>
         <template is="dom-if" if="{{!running}}" restamp="true">
             <div class="after">
-                    <a class="link" href="{{link}}">{{linkMessage}}</a>
+                    <a class="link" on-tap="_iframe" href="{{link}}">{{linkMessage}}</a>
                 </div>
         </template>
 
@@ -73,7 +73,7 @@ A time countdown element
 
             },
             ready: function () {
-                this.duration = 10;//(new Date(this.untill) - new Date()) / 1000;
+                this.duration = (new Date(this.untill) - new Date()) / 1000;
                 //Polymer.dom(this).querySelector('.link').setAttribute('href',this.link);
                 //Polymer.dom(this).querySelector('.link').textContent(this.linkMessage);
                 this.start()
@@ -88,6 +88,14 @@ A time countdown element
                     Polymer.dom(this).querySelector('.timeLeftseconds').textContent = this.timeLeft.seconds;
                 }
                 */
+
+
+            },
+            _iframe: function (evt) {
+                //c=evt;
+
+                evt.preventDefault();
+                window.open(evt.target.href,'_blank','location=yes,height=570,scrollbars=yes,status=yes');
 
 
             },
