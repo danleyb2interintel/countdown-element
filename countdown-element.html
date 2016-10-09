@@ -18,7 +18,7 @@ A time countdown element
         <template is="dom-if" if="{{running}}" restamp="true">
             <div class="timer">
 
-                    <h3><span class="message"></span></h3>
+                    <h3>{{message}}</h3>
                     <h2 style="text-align: center">
                         <span class="timeLefthours">{{timeLeft.hours}}</span> :
                         <span class="timeLeftminutes"> {{timeLeft.minutes}}</span> :
