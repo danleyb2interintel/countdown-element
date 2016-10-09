@@ -1,6 +1,6 @@
 <!doctype html>
 <html>
-  <head>
+<head>
     <title>countdown-element demo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
@@ -13,20 +13,41 @@
 
     <style is="custom-style" include="demo-pages-shared-styles">
     </style>
-  </head>
-  <body>
+</head>
+<body>
 
-    <div class="vertical-section-container centered">
-      <h3>Basic countdown-element Demo</h3>
-      <demo-snippet>
+<div class="vertical-section-container centered">
+    <h3>Basic countdown-element Demo</h3>
+    <demo-snippet>
         <template>
-          <countdown-element
-                  message="Bid closing time"
-                  untill="Sat Oct 08 2016 11:50:17 GMT+0300 (EAT)"
-          ></countdown-element>
-        </template>
-      </demo-snippet>
-    </div>
+            <countdown-element
+                    message="Bid closing time"
+                    untill="Mon Oct 10 2016 11:50:17 GMT+0300 (EAT)"
+            >
 
-  </body>
+                <div class="timer">
+
+                    <h3><span class="message"></span></h3>
+                    <h2 style="text-align: center">
+                        <span class="timeLefthours"> </span> :
+                        <span class="timeLeftminutes"> </span> :
+                        <span class="timeLeftseconds"> </span>
+                    </h2>
+
+
+                </div>
+                <div class="after">
+
+                    <a href="#">View Live Bidding.</a>
+
+
+                </div>
+
+
+            </countdown-element>
+        </template>
+    </demo-snippet>
+</div>
+
+</body>
 </html>

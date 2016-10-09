@@ -14,8 +14,14 @@ A time countdown element
                 display: block;
             }
         </style>
-        <h3>[[message]]</h3>
-        <h2 style="text-align: center">[[timeLeft.hours]] : [[timeLeft.minutes]] : [[timeLeft.seconds]]</h2>
+
+        <template is="dom-if" if="{{running}}" restamp="true">
+            <content select=".timer"></content>
+        </template>
+        <template is="dom-if" if="{{!running}}" restamp="true">
+            <content select=".after"></content>
+        </template>
+
     </template>
 
     <script>
@@ -26,6 +32,7 @@ A time countdown element
             properties: {
                 timeLeft: {
                     type: Object,
+                    observer: '_timeLeftChanged'
                 },
                 message: {
                     type: String,
@@ -41,14 +48,27 @@ A time countdown element
                     type: Array,
                     value: []
                 },
-                running: Boolean
+                running: {
+                    type:Boolean,
+                    notify:true
+                }
 
             },
             ready: function () {
-                this.duration = (new Date(this.untill) - new Date()) / 1000;
+                this.duration = 10;//(new Date(this.untill) - new Date()) / 1000;
                 this.start()
             },
+            _timeLeftChanged: function (newValue, oldValue) {
+                Polymer.dom(this).querySelector('.message').textContent = this.message;
 
+                if (this.running) {
+                    Polymer.dom(this).querySelector('.timeLefthours').textContent = this.timeLeft.hours;
+                    Polymer.dom(this).querySelector('.timeLeftminutes').textContent = this.timeLeft.minutes;
+                    Polymer.dom(this).querySelector('.timeLeftseconds').textContent = this.timeLeft.seconds;
+                }
+
+
+            },
 
             start: function () {
                 if (this.running) {
