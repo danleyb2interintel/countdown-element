@@ -16,10 +16,20 @@ A time countdown element
         </style>
 
         <template is="dom-if" if="{{running}}" restamp="true">
-            <content select=".timer"></content>
+            <div class="timer">
+
+                    <h3><span class="message"></span></h3>
+                    <h2 style="text-align: center">
+                        <span class="timeLefthours">{{timeLeft.hours}}</span> :
+                        <span class="timeLeftminutes"> {{timeLeft.minutes}}</span> :
+                        <span class="timeLeftseconds">{{timeLeft.seconds}} </span>
+                    </h2>
+                </div>
         </template>
         <template is="dom-if" if="{{!running}}" restamp="true">
-            <content select=".after"></content>
+            <div class="after">
+                    <a class="link" href="{{link}}">{{linkMessage}}</a>
+                </div>
         </template>
 
     </template>
@@ -51,14 +61,25 @@ A time countdown element
                 running: {
                     type:Boolean,
                     notify:true
+                },
+                link:{
+                    type:String,
+                    value:'#'
+                },
+                linkMessage:{
+                    type:String,
+                    value:'View Live Bidding'
                 }
 
             },
             ready: function () {
                 this.duration = 10;//(new Date(this.untill) - new Date()) / 1000;
+                //Polymer.dom(this).querySelector('.link').setAttribute('href',this.link);
+                //Polymer.dom(this).querySelector('.link').textContent(this.linkMessage);
                 this.start()
             },
             _timeLeftChanged: function (newValue, oldValue) {
+                /*
                 Polymer.dom(this).querySelector('.message').textContent = this.message;
 
                 if (this.running) {
@@ -66,6 +87,7 @@ A time countdown element
                     Polymer.dom(this).querySelector('.timeLeftminutes').textContent = this.timeLeft.minutes;
                     Polymer.dom(this).querySelector('.timeLeftseconds').textContent = this.timeLeft.seconds;
                 }
+                */
 
 
             },
